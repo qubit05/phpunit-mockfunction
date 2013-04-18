@@ -1,0 +1,18 @@
+{
+    "name": "qubit05/phpunit-mockfunction",
+    "description": "PHPUnit extension to use ",
+    "keywords": ["phpunit", "mock", "function", "testing"],
+    "licence": "MIT",
+    "authors": [{
+        "name": "James Dempster",
+        "role": "developer"
+    }],
+    "support": {
+        "issues": "https://github.com/qubit05/phpunit-mockfunction/issues"
+    },
+    "type": "library",
+    "autoload": {
+        "psr-0": { "PHPUnit\\Extensions\\": "" }
+    },
+    "target-dir": "PHPUnit/Extensions"
+}

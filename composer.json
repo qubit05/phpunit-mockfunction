@@ -12,6 +12,7 @@
     },
     "type": "library",
     "autoload": {
-        "psr-0": { "PHPUnit_Extensions_": "src/" }
-    }
+        "psr-0": { "PHPUnit_Extensions_": "" }
+    },
+    "target-dir": "PHPUnit/Extensions"
 }

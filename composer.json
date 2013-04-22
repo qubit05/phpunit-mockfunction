@@ -2,7 +2,7 @@
     "name": "qubit05/phpunit-mockfunction",
     "description": "PHPUnit extension to Mock PHP internal functions using Runkit.",
     "keywords": ["phpunit", "mock", "function", "testing"],
-    "licence": "MIT",
+    "license": "MIT",
     "authors": [{
         "name": "James Dempster",
         "role": "developer"

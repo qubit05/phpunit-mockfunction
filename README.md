@@ -19,13 +19,8 @@ Using composer, add the following to the composer.json file:
 
     {
        "require": {
-           "qubit05/phpunit-mockfunction": "dev-master"
-       },
-       "minimum-stability": "dev",
-       "repositories": [{
-           "type": "vcs",
-           "url": "https://github.com/qubit05/phpunit-mockfunction"
-       }]
+           "qubit05/phpunit-mockfunction": "1.*"
+       }
     }
 
 

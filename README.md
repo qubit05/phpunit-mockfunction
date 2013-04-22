@@ -1,7 +1,7 @@
 PHPUnit Mock Function
 =====================
 
-Intro TODO
+PHPUnit extension to Mock PHP internal functions using Runkit.
 
 Requirements
 ------------

@@ -14,6 +14,9 @@
         "issues": "https://github.com/qubit05/phpunit-mockfunction/issues"
     },
     "type": "library",
+    "require": {
+        "ext-runkit": "*"
+    },
     "autoload": {
         "psr-0": { "PHPUnit_Extensions_": "" }
     },

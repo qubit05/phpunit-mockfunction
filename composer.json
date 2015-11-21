@@ -1,5 +1,5 @@
 {
-    "name": "qubit05/phpunit-mockfunction",
+    "name": "lancerhe/phpunit-mock",
     "description": "PHPUnit extension to Mock PHP internal functions using Runkit.",
     "keywords": ["phpunit", "mock", "function", "testing", "runkit"],
     "license": "MIT",
@@ -9,16 +9,19 @@
     }, {
         "name": "Luke Richards",
         "role": "developer"
+    }, {
+        "name": "Lancer He",
+        "role": "developer"
     }],
     "support": {
-        "issues": "https://github.com/qubit05/phpunit-mockfunction/issues"
+        "issues": "https://github.com/lancerhe/phpunit-mock/issues"
     },
     "type": "library",
     "require": {
         "ext-runkit": "*"
     },
     "autoload": {
-        "psr-0": { "PHPUnit_Extensions_": "" }
+        "psr-0": { "PHPUnit_Extensions_": "src" }
     },
     "target-dir": "PHPUnit/Extensions"
 }

@@ -22,6 +22,5 @@
     },
     "autoload": {
         "psr-0": { "PHPUnit_Extensions_": "src" }
-    },
-    "target-dir": "PHPUnit/Extensions"
+    }
 }

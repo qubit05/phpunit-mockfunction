@@ -10,8 +10,6 @@ Requirements
 
 *This is an optional requirement. Runkit doesn't currently support the override of internal functions (exit, die etc). 
 
-
-
 Installation
 ------------
 

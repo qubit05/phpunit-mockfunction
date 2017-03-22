@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mock Function
  */
@@ -7,17 +8,17 @@ class PHPUnit_Extensions_MockFunction {
     /**
      * @var array
      */
-    static public $mock_objects = array();
+    static public $mockObjects = [];
 
     /**
      * @var string
      */
-    protected $_function_name;
+    protected $_functionName;
 
     /**
      * @var string
      */
-    protected $_function_alias;
+    protected $_functionAlias;
 
     /**
      * @var boolean
@@ -27,50 +28,46 @@ class PHPUnit_Extensions_MockFunction {
     /**
      * Construct
      *
-     * @param string                     $function
-     * @param PHPUnit_Framework_TestCase $testcase
+     * @param string $function
+     * @param PHPUnit_Framework_TestCase $testCase
      */
-    public function __construct($function, PHPUnit_Framework_TestCase $testcase) {
+    public function __construct($function, PHPUnit_Framework_TestCase $testCase) {
         if ( ! function_exists($function) ) {
             throw new InvalidArgumentException("Invalid function name '$function'");
         }
-        if ( array_key_exists($function, self::$mock_objects) ) {
+        if ( array_key_exists($function, self::$mockObjects) ) {
             throw new RuntimeException("Can not create second function mock for '$function'");
         }
 
-        $this->_function_name  = $function;
-        $this->_function_alias = uniqid("function_");
-        self::$mock_objects[$this->_function_name] = $testcase->getMock($this->_function_alias, array('call'));
+        $this->_functionName  = $function;
+        $this->_functionAlias = uniqid("function_");
+        $mockBuilder          = $testCase->getMockBuilder($this->_functionAlias);
+        $mockBuilder->setMethods(["call"]);
+        self::$mockObjects[$this->_functionName] = $mockBuilder->getMock();
         $this->mock();
     }
 
     /**
-     * Mock
-     *
-     * @return \MockFunction
+     * @return PHPUnit_Extensions_MockFunction
      */
     public function mock() {
-        if ( $this->_mock ) 
-            return $this;
+        if ( $this->_mock ) return $this;
 
         $this->_mock = true;
-        runkit_function_rename($this->_function_name, $this->_function_alias);
-        runkit_function_add($this->_function_name, '', $this->getMockCode());
+        runkit_function_rename($this->_functionName, $this->_functionAlias);
+        runkit_function_add($this->_functionName, '', $this->getMockCode());
         return $this;
     }
 
     /**
-     * Restore
-     *
-     * @return \MockFunction
+     * @return PHPUnit_Extensions_MockFunction
      */
     public function restore() {
-        if ( ! $this->_mock ) 
-            return $this;
+        if ( ! $this->_mock ) return $this;
 
         $this->_mock = false;
-        runkit_function_remove($this->_function_name);
-        runkit_function_rename($this->_function_alias, $this->_function_name);
+        runkit_function_remove($this->_functionName);
+        runkit_function_rename($this->_functionAlias, $this->_functionName);
         return $this;
     }
 
@@ -78,7 +75,7 @@ class PHPUnit_Extensions_MockFunction {
      * Destruct
      */
     public function __destruct() {
-        unset(self::$mock_objects[$this->_function_name]);
+        unset(self::$mockObjects[$this->_functionName]);
         $this->restore();
     }
 
@@ -89,7 +86,7 @@ class PHPUnit_Extensions_MockFunction {
      */
     public function getMockCode() {
         $self     = __CLASS__;
-        $function = var_export($this->_function_name, true);
+        $function = var_export($this->_functionName, true);
 
         return "
             \$callback = array($self::getMock($function), 'call');
@@ -105,7 +102,7 @@ class PHPUnit_Extensions_MockFunction {
      * @return PHPUnit_Framework_MockObject_Builder_InvocationMocker
      */
     public function expects(PHPUnit_Framework_MockObject_Matcher_Invocation $matcher) {
-        return self::getMock($this->_function_name)->expects($matcher)->method('call');
+        return self::getMock($this->_functionName)->expects($matcher)->method('call');
     }
 
     /**
@@ -116,8 +113,7 @@ class PHPUnit_Extensions_MockFunction {
      * @throws \RuntimeException
      */
     public static function getMock($function) {
-        if ( ! array_key_exists($function, self::$mock_objects) )
-            throw new \RuntimeException("Failed to get mock object for function '$function'");
-        return self::$mock_objects[$function];
+        if ( ! array_key_exists($function, self::$mockObjects) ) throw new \RuntimeException("Failed to get mock object for function '$function'");
+        return self::$mockObjects[$function];
     }
 }

@@ -10,8 +10,6 @@ Requirements
 
 *This is an optional requirement. Runkit doesn't currently support the override of internal functions (exit, die etc). 
 
-
-
 Installation
 ------------
 
@@ -19,21 +17,19 @@ Using composer, add the following to the composer.json file:
 
     {
        "require": {
-           "qubit05/phpunit-mockfunction": "1.*"
+           "lancerhe/phpunit-mock": "dev-master"
        }
     }
 
 
-Example
+Function Example
 -------
 
 `ExampleClass.php`
 
     <?php
-    class ExampleClass
-    {
-        public function doExample()
-        {
+    class ExampleClass {
+        public function doExample() {
             return date();
         }
     }
@@ -41,10 +37,12 @@ Example
 `ExampleClassTest.php`
 
     <?php
-    class ExampleClassTest extends \PHPUnit_Framework_TestCase
-    {
-        public function testExample()
-        {
+    class ExampleClassTest extends \PHPUnit_Framework_TestCase {
+        
+        /**
+         * @test
+         */
+        public function return_expected_value() {
             $param = 'Y-m-d H:i:s';
             $value = 'non date value';
         
@@ -57,7 +55,44 @@ Example
             $this->assertEquals($value, $exampleClass->doExample($param));
         }
     }
-    
-Acknowledgement
----------------
-When this class was created, some inspiration was taken from [tcz/phpunit-mockfunction](https://github.com/tcz/phpunit-mockfunction/blob/master/PHPUnit/Extensions/MockFunction.php). The two classes are similar but not the same.
+
+Class Example
+-------
+
+`ExampleClass.php`
+
+    <?php
+    class Calculate {
+        public $a, $b;
+        public function __construct($a, $b) {
+            $this->a = $a;
+            $this->b = $b;
+        }
+        public function add() {
+            return $this->a + $this->b;
+        }
+
+        public function minus() {
+            return $this->a - $this->b;
+        }
+    }
+
+`ExampleClassTest.php`
+
+    <?php
+    class PHPUnit_Extensions_MockClassTest extends \PHPUnit_Framework_TestCase {
+
+        /**
+         * @test
+         */
+        public function method_return_expected_value() {
+            $value = 'non value';
+
+            $mockClass = new PHPUnit_Extensions_MockClass('Calculate', ['add'], $this);
+            $mockClass->expects($this->any())
+                ->method('add')
+                ->will($this->returnValue($value));
+
+            $this->assertEquals($value, (new Calculate(4, 2))->add());
+        }
+    }
